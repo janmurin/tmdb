@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="splash_timeout">500</integer>
+    <integer name="signin_timeout">8000</integer>
+    <integer name="activity_transition_duration">500</integer>
+</resources>

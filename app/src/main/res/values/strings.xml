@@ -1,3 +1,65 @@
 <resources>
+
+    <!-- ACTIVITY TITLES -->
     <string name="app_name">The Movie Database</string>
+    <string name="title_activity_account">Account</string>
+    <string name="title_activity_detail">Detail</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_about">About DroidMDB</string>
+
+    <!-- MENU ACTIONS -->
+    <string name="action_search">Search</string>
+    <string name="action_signout">Sign Out</string>
+
+    <!-- NAVIGATION -->
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="lbl_signin">Sign In</string>
+    <string name="lbl_signin_description">Sign in to your account&#8230;</string>
+    <string name="nav_home">Home</string>
+    <string name="nav_discover">Discover</string>
+    <string name="nav_movies">Movies</string>
+    <string name="nav_tvshows">TV Shows</string>
+    <string name="nav_people">People</string>
+    <string name="nav_settings">Settings</string>
+    <string name="nav_about">About</string>
+
+    <string name="lbl_view_all">View All</string>
+
+    <string name="lbl_popular">Popular</string>
+    <string name="lbl_top_rated">Top Rated</string>
+    <string name="lbl_upcoming">Upcoming</string>
+    <string name="lbl_now_playing">Now Playing</string>
+    <string name="lbl_in_theatres">In Theatres</string>
+    <string name="lbl_on_the_air">On the Air</string>
+    <string name="lbl_airing_today">Airing Today</string>
+    <string name="lbl_popular_people">Popular People</string>
+    <string name="lbl_on_tv">On TV</string>
+
+    <string name="lbl_hint_email">Email</string>
+    <string name="lbl_hint_username">Username</string>
+    <string name="lbl_hint_password">Password</string>
+
+    <string name="msg_signin_successful">User %s signed in successfully</string>
+    <string name="msg_signin_failed">User sign in failed (%s)</string>
+    <string name="msg_signout">User %s signed out</string>
+
+
+    <!-- Movies sections -->
+    <string-array name="movie_lists">
+        <item>@string/lbl_popular</item>
+        <item>@string/lbl_top_rated</item>
+        <item>@string/lbl_upcoming</item>
+        <item>@string/lbl_now_playing</item>
+    </string-array>
+
+    <!-- Tv Shows sections -->
+    <string-array name="tvshow_lists">
+        <item>@string/lbl_popular</item>
+        <item>@string/lbl_top_rated</item>
+        <item>@string/lbl_on_the_air</item>
+        <item>@string/lbl_airing_today</item>
+    </string-array>
+
 </resources>

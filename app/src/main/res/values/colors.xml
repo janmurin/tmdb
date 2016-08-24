@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+    <!-- Toolbar colors -->
+    <color name="colorPrimary">#3c3c3c</color>
+    <color name="colorPrimaryDark">#202020</color>
+    <color name="colorAccent">#5A7824</color>
+
+    <!-- Text colors -->
+    <color name="base_text_color">#4f4f4f</color>
+    <color name="hint_text_color">#8d8d8d</color>
+
+    <color name="nav_header_bg_start">#5A7824</color>
+    <color name="nav_header_bg_center">#516C21</color>
+    <color name="nav_header_bg_end">#49611E</color>
+
+    <color name="image_bg">#d8d8d8</color>
+
 </resources>
