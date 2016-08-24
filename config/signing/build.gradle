@@ -1,0 +1,32 @@
+def getKeystorePassword() {
+    // first try password from gradle.properties
+    def pswd = KEYSTORE_PASSWORD;
+    // or try it from System property (CI)
+    if (pswd == null) {
+        pswd = System.getenv("KEYSTORE_PASSWORD");
+    }
+    return pswd;
+}
+
+def getKeyAlias() {
+    def alias = KEY_ALIAS;
+    if (alias == null) {
+        alias = System.getenv("KEY_ALIAS");
+    }
+    return alias;
+}
+
+def getKeyPassword() {
+    def pswd = KEY_PASSWORD;
+    if (pswd == null) {
+        pswd = System.getenv("KEY_PASSWORD");
+    }
+    return pswd;
+}
+
+// export methods
+ext {
+    signKeystorePassword = this.&getKeystorePassword
+    signKeyAlias = this.&getKeyAlias
+    signKeyPassword = this.&getKeyPassword
+}
