@@ -1,9 +1,9 @@
-package com.gl.tmdb.content.network.services_rx;
+package com.gl.tmdb.content.network.services;
 
 import com.gl.tmdb.content.model.Configuration;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
-import rx.Observable;
 
 /**
  * Service for all Configuration API calls.
@@ -11,5 +11,5 @@ import rx.Observable;
 public interface ConfigurationService {
 
     @GET("configuration")
-    Observable<Configuration> configuration();
+    Call<Configuration> configuration();
 }

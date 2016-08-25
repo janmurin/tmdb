@@ -1,11 +1,11 @@
-package com.gl.tmdb.content.network.services_rx;
+package com.gl.tmdb.content.network.services;
 
 import com.gl.tmdb.content.model.Account;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Service for all Account API calls.
@@ -13,12 +13,12 @@ import rx.Observable;
 public interface AccountService {
 
     @GET("account")
-    Observable<Account> account(
+    Call<Account> account(
             @Query("session_id") String sessionId
     );
 
     @GET("account/{id}/lists")
-    Observable<Account> lists(
+    Call<Account> lists(
             @Path("id") String id,
             @Query("session_id") String sessionId,
             @Query("page") String page,             /* optional */
@@ -26,7 +26,7 @@ public interface AccountService {
     );
 
     @GET("account/{id}/lists")
-    Observable<Account> favoriteMovies(
+    Call<Account> favoriteMovies(
             @Path("id") String id,
             @Query("session_id") String sessionId,
             @Query("page") String page,             /* optional */
@@ -35,7 +35,7 @@ public interface AccountService {
     );
 
     @GET("account/{id}/lists")
-    Observable<Account> favoriteTv(
+    Call<Account> favoriteTv(
             @Path("id") String id,
             @Query("session_id") String sessionId,
             @Query("page") String page,             /* optional */

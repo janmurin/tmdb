@@ -1,11 +1,11 @@
-package com.gl.tmdb.content.network.services_rx;
+package com.gl.tmdb.content.network.services;
 
 import com.gl.tmdb.content.model.PersonItem;
 import com.gl.tmdb.content.network.responses.PagedResponse;
 
+import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Service for all People API calls.
@@ -13,12 +13,12 @@ import rx.Observable;
 public interface PeopleService {
 
     @GET("person/popular")
-    Observable<PagedResponse<PersonItem>> popular(
+    Call<PagedResponse<PersonItem>> popular(
             @Query("page") String page          /* optional */
     );
 
     @GET("person/latest")
-    Observable<PagedResponse<PersonItem>> latest(
+    Call<PagedResponse<PersonItem>> latest(
             @Query("page") String page          /* optional */
     );
 }

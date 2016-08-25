@@ -1,12 +1,12 @@
 package com.gl.tmdb.content;
 
 import com.gl.tmdb.app.Config;
-import com.gl.tmdb.content.network.services_rx.AccountService;
-import com.gl.tmdb.content.network.services_rx.AuthService;
-import com.gl.tmdb.content.network.services_rx.ConfigurationService;
-import com.gl.tmdb.content.network.services_rx.MoviesService;
-import com.gl.tmdb.content.network.services_rx.PeopleService;
-import com.gl.tmdb.content.network.services_rx.TvShowService;
+import com.gl.tmdb.content.network.services.AccountService;
+import com.gl.tmdb.content.network.services.AuthService;
+import com.gl.tmdb.content.network.services.ConfigurationService;
+import com.gl.tmdb.content.network.services.MoviesService;
+import com.gl.tmdb.content.network.services.PeopleService;
+import com.gl.tmdb.content.network.services.TvShowService;
 
 import java.io.IOException;
 
@@ -23,41 +23,45 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * ApiManager implementation.
  */
-final class ApiServices {
+public final class ApiServices {
+
+    public static AuthService getAuthService() {
+        return InstanceHolder.instance.retrofit.create(AuthService.class);
+    }
+
+    public static AccountService getAccountService() {
+        return InstanceHolder.instance.retrofit.create(AccountService.class);
+    }
+
+    public static ConfigurationService getConfigurationService() {
+        return InstanceHolder.instance.retrofit.create(ConfigurationService.class);
+    }
+
+    public static MoviesService getMoviesService() {
+        return InstanceHolder.instance.retrofit.create(MoviesService.class);
+    }
+
+    public static PeopleService getPeopleService() {
+        return InstanceHolder.instance.retrofit.create(PeopleService.class);
+    }
+
+    public static TvShowService getTvShowService() {
+        return InstanceHolder.instance.retrofit.create(TvShowService.class);
+    }
+
+    private static class InstanceHolder {
+        public static final ApiServices instance = new ApiServices();
+    }
 
     private Retrofit retrofit;
 
-    public ApiServices() {
+    private ApiServices() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(Config.Api.BASE_URL)
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
-    }
-
-    public AuthService getAuthService() {
-        return retrofit.create(AuthService.class);
-    }
-
-    public AccountService getAccountService() {
-        return retrofit.create(AccountService.class);
-    }
-
-    public ConfigurationService getConfigurationService() {
-        return retrofit.create(ConfigurationService.class);
-    }
-
-    public MoviesService getMoviesService() {
-        return retrofit.create(MoviesService.class);
-    }
-
-    public PeopleService getPeopleService() {
-        return retrofit.create(PeopleService.class);
-    }
-
-    public TvShowService getTvShowService() {
-        return retrofit.create(TvShowService.class);
     }
 
     private OkHttpClient getOkHttpClient() {
