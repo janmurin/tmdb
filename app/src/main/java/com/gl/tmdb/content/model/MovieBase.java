@@ -84,4 +84,22 @@ public class MovieBase extends MediaItem {
     public String getBackdropPath() {
         return backdropPath;
     }
+
+    @Override
+    public String toString() {
+        return "MovieBase{" +
+                "title='" + title + '\'' +
+                ", originalTitle='" + originalTitle + '\'' +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", overview='" + overview + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", releaseDate='" + releaseDate + '\'' +
+                ", popularity=" + popularity +
+                ", voteCount=" + voteCount +
+                ", voteAverage=" + voteAverage +
+                ", video=" + video +
+                ", adult=" + adult +
+                ", backdropPath='" + backdropPath + '\'' +
+                '}';
+    }
 }

@@ -7,4 +7,6 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="small_movie_header">75dp</dimen>
+    <dimen name="big_movie_header">150dp</dimen>
 </resources>

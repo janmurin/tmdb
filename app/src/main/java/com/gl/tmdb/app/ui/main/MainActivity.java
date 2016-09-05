@@ -99,10 +99,12 @@ public class MainActivity extends BaseActivity {
     private void onNavigationItem(int id) {
         switch (id) {
             case R.id.nav_home:
+                showContentFragment(HomeFragment.newInstance(),HomeFragment.TAG);
                 break;
             case R.id.nav_discover:
                 break;
             case R.id.nav_movies:
+                showContentFragment(MoviesFragment.newInstance(),MoviesFragment.TAG);
                 break;
             case R.id.nav_tvshows:
                 break;
