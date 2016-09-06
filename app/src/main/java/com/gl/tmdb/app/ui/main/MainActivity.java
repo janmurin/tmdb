@@ -15,6 +15,12 @@ import android.view.View;
 import com.gl.tmdb.R;
 import com.gl.tmdb.app.base.BaseActivity;
 import com.gl.tmdb.app.custom.NavigationHeader;
+import com.gl.tmdb.content.model.MediaListType;
+import com.gl.tmdb.events.eventbus.EventBusEvents;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 
@@ -28,8 +34,12 @@ public class MainActivity extends BaseActivity {
 
     private static final long NAVIGATION_CLOSE_DELAY = 250;
 
-    protected @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-    protected @BindView(R.id.nav_view) NavigationView navigationView;
+    protected
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    protected
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
     private final Handler handler = new Handler();
 
     @Override
@@ -77,6 +87,31 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventBusEvent(EventBusEvents.ViewAllEvent viewAllEvent) {
+        if (viewAllEvent.mediaListType == MediaListType.MOVIES_NOW_PLAYING) {
+            displayMovies();
+        }
+        if (viewAllEvent.mediaListType == MediaListType.POPULAR_PEOPLE) {
+            displayPersons();
+        }
+        if (viewAllEvent.mediaListType == MediaListType.TV_SHOW_AIRING_TODAY) {
+            displayTvShows();
+        }
+    }
+
     private void setupNavigationView() {
         navigationView.setNavigationItemSelectedListener(navItemListener);
         NavigationHeader navHeader = (NavigationHeader) navigationView.getHeaderView(0);
@@ -89,6 +124,27 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void displayHome() {
+        showContentFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+        navigationView.getMenu().getItem(HomeFragment.DRAWER_POS).setChecked(true);
+    }
+
+    private void displayMovies() {
+        showContentFragment(MoviesFragment.newInstance(), MoviesFragment.TAG);
+        navigationView.getMenu().getItem(MoviesFragment.DRAWER_POS).setChecked(true);
+    }
+
+    private void displayTvShows() {
+        showContentFragment(TVShowsFragment.newInstance(), TVShowsFragment.TAG);
+        navigationView.getMenu().getItem(TVShowsFragment.DRAWER_POS).setChecked(true);
+    }
+
+    private void displayPersons() {
+        showContentFragment(PersonsFragment.newInstance(), PersonsFragment.TAG);
+        navigationView.getMenu().getItem(PersonsFragment.DRAWER_POS).setChecked(true);
+    }
+
+
     private void showContentFragment(Fragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
@@ -99,16 +155,19 @@ public class MainActivity extends BaseActivity {
     private void onNavigationItem(int id) {
         switch (id) {
             case R.id.nav_home:
-                showContentFragment(HomeFragment.newInstance(),HomeFragment.TAG);
+                //showContentFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+                displayHome();
                 break;
             case R.id.nav_discover:
                 break;
             case R.id.nav_movies:
-                showContentFragment(MoviesFragment.newInstance(),MoviesFragment.TAG);
+                displayMovies();
                 break;
             case R.id.nav_tvshows:
+                displayTvShows();
                 break;
             case R.id.nav_people:
+                displayPersons();
                 break;
             case R.id.nav_settings:
                 break;

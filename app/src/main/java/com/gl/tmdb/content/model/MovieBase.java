@@ -2,11 +2,13 @@ package com.gl.tmdb.content.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Represents basic movie information and serves as a base class
  * for {@link MovieItem} and {@link MovieFull}.
  */
-public class MovieBase extends MediaItem {
+public class MovieBase extends MediaItem implements Serializable{
 
     @SerializedName("title")
     protected String title;

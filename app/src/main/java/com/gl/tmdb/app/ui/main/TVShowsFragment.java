@@ -19,37 +19,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jan.murin on 05-Sep-16.
+ * Created by jan.murin on 06-Sep-16.
  */
-public class MoviesFragment extends BaseFragment {
+public class TVShowsFragment extends BaseFragment {
 
-    public static final MediaListType[] tabs = {MediaListType.MOVIES_NOW_PLAYING, MediaListType.MOVIES_POPULAR, MediaListType.MOVIES_TOP_RATED, MediaListType.MOVIES_UPCOMING};
-    public static final String TAG = MoviesFragment.class.getSimpleName();
-    public static final String ORDINAL = "ordinal";
-    public static final int DRAWER_POS = 1;
-    private int ordinal = -1;
+    public static final MediaListType[] tabs = {MediaListType.TV_SHOW_AIRING_TODAY, MediaListType.TV_SHOW_ON_THE_AIR, MediaListType.TV_SHOW_POPULAR, MediaListType.TV_SHOW_TOP_RATED};
+    public static final String TAG = TVShowsFragment.class.getSimpleName();
+    public static final int DRAWER_POS = 2;
     //private RecyclerView rv;
 
-    public static MoviesFragment newInstance() {
-        return new MoviesFragment();
-    }
-
-    public static MoviesFragment newInstance(MediaListType moviesNowPlaying) {
-        MoviesFragment moviesFragment = new MoviesFragment();
-        Bundle args = new Bundle();
-        args.putInt(ORDINAL, moviesNowPlaying.ordinal());
-        moviesFragment.setArguments(args);
-        return moviesFragment;
+    public static TVShowsFragment newInstance() {
+        return new TVShowsFragment();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        Bundle args = getArguments();
-        if (args != null) {
-            ordinal = args.getInt(ORDINAL);
-        }
     }
 
     @Nullable
@@ -68,28 +54,16 @@ public class MoviesFragment extends BaseFragment {
         }
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
 
         for (int i = 0; i < tabs.length; i++) {
-            adapter.addFragment(MoviesPagerItemFragment.getInstance(i), tabs[i].title);
+            adapter.addFragment(TVShowPagerItemFragment.getInstance(i), tabs[i].title);
         }
         viewPager.setAdapter(adapter);
-
-        if (ordinal != -1) {
-            MediaListType mediaListType = MediaListType.values()[ordinal];
-            for (int i = 0; i < tabs.length; i++) {
-                if (tabs[i] == mediaListType) {
-                    viewPager.setCurrentItem(i);
-                    break;
-                }
-            }
-        }
     }
-
 
     static class Adapter extends FragmentPagerAdapter {
         private final List<Fragment> mFragments = new ArrayList<>();

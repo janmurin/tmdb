@@ -1,6 +1,7 @@
 package com.gl.tmdb.app.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +20,7 @@ import com.gl.tmdb.R;
 import com.gl.tmdb.app.base.BaseFragment;
 import com.gl.tmdb.content.ApiServices;
 import com.gl.tmdb.content.model.MediaListType;
+import com.gl.tmdb.content.model.MediaType;
 import com.gl.tmdb.content.model.MovieItem;
 import com.gl.tmdb.content.model.PersonItem;
 import com.gl.tmdb.content.model.TvShowItem;
@@ -26,9 +28,11 @@ import com.gl.tmdb.content.network.responses.PagedResponse;
 import com.gl.tmdb.content.network.services.MoviesService;
 import com.gl.tmdb.content.network.services.PeopleService;
 import com.gl.tmdb.content.network.services.TvShowService;
+import com.gl.tmdb.events.eventbus.EventBusEvents;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,9 +50,7 @@ import retrofit2.Response;
 public final class HomeFragment extends BaseFragment {
 
     public static final String TAG = "HomeFragment";
-    protected
-    @BindView(R.id.downloadButton)
-    Button downloadButton;
+    public static final int DRAWER_POS = 0;
     private RecyclerView rv;
     private Map<MediaListType, List<ThreeItemRecyclerViewItem>> listMap;
     private int gateCounter;
@@ -73,25 +75,6 @@ public final class HomeFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         rv = (RecyclerView) view.findViewById(R.id.recyclerview);
-
-    }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        EventBus.getDefault().register(this);
-//        Log.d(TAG, "onStart");
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        EventBus.getDefault().unregister(this);
-//    }
-
-    @OnClick(R.id.downloadButton)
-    public void submit() {
-        Log.d(TAG, "stahujem filmy");
         listMap = new HashMap<>();
         gateCounter = 3;
         MoviesService api = ApiServices.getMoviesService();
@@ -167,6 +150,19 @@ public final class HomeFragment extends BaseFragment {
         });
     }
 
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        EventBus.getDefault().register(this);
+//        Log.d(TAG, "onStart");
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        EventBus.getDefault().unregister(this);
+//    }
+
     private void setupRecyclerView(RecyclerView recyclerView, Map<MediaListType, List<ThreeItemRecyclerViewItem>> results) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new ThreeItemRecyclerViewAdapter(getActivity(), results));
@@ -176,6 +172,7 @@ public final class HomeFragment extends BaseFragment {
 
         private final TypedValue mTypedValue = new TypedValue();
         private final List<MediaListType> categories;
+        private final Context context;
         private int mBackground;
         private Map<MediaListType, List<ThreeItemRecyclerViewItem>> mValues;
 
@@ -219,6 +216,7 @@ public final class HomeFragment extends BaseFragment {
             for (MediaListType mlt : items.keySet()) {
                 categories.add(mlt);
             }
+            this.context = context;
         }
 
         @Override
@@ -235,15 +233,34 @@ public final class HomeFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     System.out.println("view all for category: " + categories.get(position));
+                    EventBus.getDefault().post(new EventBusEvents.ViewAllEvent(categories.get(position)));
                 }
             });
 
 
             holder.titleTextView1.setText(mValues.get(categories.get(position)).get(0).getTitle());
+            holder.titleTextView2.setText(mValues.get(categories.get(position)).get(1).getTitle());
+            holder.titleTextView3.setText(mValues.get(categories.get(position)).get(2).getTitle());
+
             holder.mImageView1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    System.out.println("kliknuty item " + mValues.get(categories.get(position)).get(0).getTitle());
+                    System.out.println("position " + position + " kliknuty item " + mValues.get(categories.get(position)).get(0));
+                    startDetailActivity(categories.get(position), mValues.get(categories.get(position)).get(0));
+                }
+            });
+            holder.mImageView2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("position " + position + " kliknuty item " + mValues.get(categories.get(position)).get(1));
+                    startDetailActivity(categories.get(position), mValues.get(categories.get(position)).get(1));
+                }
+            });
+            holder.mImageView3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("position " + position + " kliknuty item " + mValues.get(categories.get(position)).get(2));
+                    startDetailActivity(categories.get(position), mValues.get(categories.get(position)).get(2));
                 }
             });
 
@@ -251,35 +268,42 @@ public final class HomeFragment extends BaseFragment {
                     .load("http://image.tmdb.org/t/p/w500" + mValues.get(categories.get(position)).get(0).getPosterPath())
                     .centerCrop()
                     .into(holder.mImageView1);
-
-            holder.titleTextView2.setText(mValues.get(categories.get(position)).get(1).getTitle());
-            holder.mImageView2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("kliknuty item " + mValues.get(categories.get(position)).get(1).getTitle());
-                }
-            });
             Glide.with(holder.mImageView2.getContext())
                     .load("http://image.tmdb.org/t/p/w500" + mValues.get(categories.get(position)).get(1).getPosterPath())
                     .centerCrop()
                     .into(holder.mImageView2);
-
-            holder.titleTextView3.setText(mValues.get(categories.get(position)).get(2).getTitle());
-            holder.mImageView3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("kliknuty item " + mValues.get(categories.get(position)).get(2).getTitle());
-                }
-            });
             Glide.with(holder.mImageView3.getContext())
                     .load("http://image.tmdb.org/t/p/w500" + mValues.get(categories.get(position)).get(2).getPosterPath())
                     .centerCrop()
                     .into(holder.mImageView3);
         }
 
+        private void startDetailActivity(MediaListType mediaListType, ThreeItemRecyclerViewItem threeItemRecyclerViewItem) {
+            if (mediaListType.mediaType == MediaType.MOVIE) {
+                final Intent i = new Intent(context, MovieDetailActivity.class);
+                System.out.println("ukladam do intentu movie item: " + threeItemRecyclerViewItem.getMovieItem());
+                i.putExtra(MovieDetailActivity.MOVIE_ITEM_KEY, threeItemRecyclerViewItem.getMovieItem());
+                context.startActivity(i);
+            }
+            if (mediaListType.mediaType == MediaType.TV_SHOW) {
+//                final Intent i = new Intent(context, MovieDetailActivity.class);
+//                i.putExtra(MovieDetailActivity.MOVIE_ITEM_KEY, threeItemRecyclerViewItem.getMovieItem());
+//                context.startActivity(i);
+            }
+            if (mediaListType.mediaType == MediaType.PERSON) {
+//                final Intent i = new Intent(context, MovieDetailActivity.class);
+//                i.putExtra(MovieDetailActivity.MOVIE_ITEM_KEY, threeItemRecyclerViewItem.getMovieItem());
+//                context.startActivity(i);
+            }
+        }
+
         @Override
         public int getItemCount() {
             return mValues.keySet().size();
         }
+
+
     }
+
+
 }

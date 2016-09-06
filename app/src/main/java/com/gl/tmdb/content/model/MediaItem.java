@@ -2,10 +2,12 @@ package com.gl.tmdb.content.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Base class for media items.
  */
-public class MediaItem {
+public class MediaItem implements Serializable{
 
     @SerializedName("id")
     protected Integer id;

@@ -5,13 +5,14 @@ import android.database.Cursor;
 import com.gl.tmdb.content.local.DataContract;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Represents basic Movie information as returned in a list of movies.
  */
-public class MovieItem extends MovieBase {
+public class MovieItem extends MovieBase implements Serializable{
 
     @SerializedName("genre_ids")
     private List<Integer> genreIds = new ArrayList<>();
