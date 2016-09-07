@@ -1,4 +1,4 @@
-package com.gl.tmdb.app.ui.main;
+package com.gl.tmdb.app.ui.adapters;
 
 import com.gl.tmdb.content.model.MovieItem;
 import com.gl.tmdb.content.model.PersonItem;

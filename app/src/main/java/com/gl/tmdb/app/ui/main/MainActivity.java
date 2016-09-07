@@ -15,6 +15,10 @@ import android.view.View;
 import com.gl.tmdb.R;
 import com.gl.tmdb.app.base.BaseActivity;
 import com.gl.tmdb.app.custom.NavigationHeader;
+import com.gl.tmdb.app.ui.fragments.HomeFragment;
+import com.gl.tmdb.app.ui.fragments.MoviesFragment;
+import com.gl.tmdb.app.ui.fragments.PersonsFragment;
+import com.gl.tmdb.app.ui.fragments.TVShowsFragment;
 import com.gl.tmdb.content.model.MediaListType;
 import com.gl.tmdb.events.eventbus.EventBusEvents;
 

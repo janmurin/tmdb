@@ -1,10 +1,12 @@
 package com.gl.tmdb.content.network.services;
 
+import com.gl.tmdb.content.model.TvShowFull;
 import com.gl.tmdb.content.model.TvShowItem;
 import com.gl.tmdb.content.network.responses.PagedResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -33,6 +35,12 @@ public interface TvShowService {
     @GET("tv/on_the_air")
     Call<PagedResponse<TvShowItem>> onTheAir(
             @Query("page") String page,         /* optional */
+            @Query("language") String language  /* optional */
+    );
+
+    @GET("tv/{id}")
+    Call<TvShowFull> tvShow(
+            @Path("id") int id,
             @Query("language") String language  /* optional */
     );
 }

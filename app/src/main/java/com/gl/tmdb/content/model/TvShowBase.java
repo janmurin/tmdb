@@ -81,4 +81,21 @@ public class TvShowBase extends MediaItem {
     public List<String> getOriginCountry() {
         return originCountry;
     }
+
+    @Override
+    public String toString() {
+        return "TvShowBase{" +
+                "name='" + name + '\'' +
+                ", originalName='" + originalName + '\'' +
+                ", originalLanguage='" + originalLanguage + '\'' +
+                ", overview='" + overview + '\'' +
+                ", posterPath='" + posterPath + '\'' +
+                ", firstAirDate='" + firstAirDate + '\'' +
+                ", popularity=" + popularity +
+                ", voteCount=" + voteCount +
+                ", voteAverage=" + voteAverage +
+                ", backdropPath='" + backdropPath + '\'' +
+                ", originCountry=" + originCountry +
+                '}';
+    }
 }
