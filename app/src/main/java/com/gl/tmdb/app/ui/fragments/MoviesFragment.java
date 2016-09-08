@@ -30,31 +30,31 @@ public class MoviesFragment extends BaseFragment {
     public static final String TAG = MoviesFragment.class.getSimpleName();
     public static final String ORDINAL = "ordinal";
     public static final int DRAWER_POS = 1;
-    private int ordinal = -1;
+  //  private int ordinal = -1;
     //private RecyclerView rv;
 
     public static MoviesFragment newInstance() {
         return new MoviesFragment();
     }
 
-    public static MoviesFragment newInstance(MediaListType moviesNowPlaying) {
-        MoviesFragment moviesFragment = new MoviesFragment();
-        Bundle args = new Bundle();
-        args.putInt(ORDINAL, moviesNowPlaying.ordinal());
-        moviesFragment.setArguments(args);
-        return moviesFragment;
-    }
+//    public static MoviesFragment newInstance(MediaListType moviesNowPlaying) {
+//        MoviesFragment moviesFragment = new MoviesFragment();
+//        Bundle args = new Bundle();
+//        args.putInt(ORDINAL, moviesNowPlaying.ordinal());
+//        moviesFragment.setArguments(args);
+//        return moviesFragment;
+//    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onCreate");
         super.onCreate(savedInstanceState);
-       // setRetainInstance(true);
+       setRetainInstance(true);
         getActivity().setTitle("Movies");
-        Bundle args = getArguments();
-        if (args != null) {
-            ordinal = args.getInt(ORDINAL);
-        }
+//        Bundle args = getArguments();
+//        if (args != null) {
+//            ordinal = args.getInt(ORDINAL);
+//        }
     }
 
     @Nullable
@@ -80,7 +80,6 @@ public class MoviesFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         Log.d(TAG,"onViewCreated");
         super.onViewCreated(view, savedInstanceState);
-        // rv = (RecyclerView) view.findViewById(R.id.recyclerview);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.movieViewPager);
         if (viewPager != null) {
             setupViewPager(viewPager);
@@ -91,22 +90,22 @@ public class MoviesFragment extends BaseFragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
+        Adapter adapter = new Adapter(getChildFragmentManager());
 
         for (int i = 0; i < tabs.length; i++) {
             adapter.addFragment(MoviesPagerItemFragment.getInstance(i), tabs[i].title);
         }
         viewPager.setAdapter(adapter);
 
-        if (ordinal != -1) {
-            MediaListType mediaListType = MediaListType.values()[ordinal];
-            for (int i = 0; i < tabs.length; i++) {
-                if (tabs[i] == mediaListType) {
-                    viewPager.setCurrentItem(i);
-                    break;
-                }
-            }
-        }
+//        if (ordinal != -1) {
+//            MediaListType mediaListType = MediaListType.values()[ordinal];
+//            for (int i = 0; i < tabs.length; i++) {
+//                if (tabs[i] == mediaListType) {
+//                    viewPager.setCurrentItem(i);
+//                    break;
+//                }
+//            }
+//        }
     }
 
 

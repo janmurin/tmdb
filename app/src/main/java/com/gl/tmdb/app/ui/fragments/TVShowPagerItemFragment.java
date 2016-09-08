@@ -51,9 +51,9 @@ public class TVShowPagerItemFragment extends BaseFragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        Log.d(TAG,"onCreate with id: "+id);
+        Log.d(TAG, "onCreate with id: " + id);
         super.onCreate(savedInstanceState);
-       // setRetainInstance(true);
+         setRetainInstance(true);
         Bundle args = getArguments();
         if (args != null) {
             id = args.getInt(TAB_ID);
@@ -65,70 +65,36 @@ public class TVShowPagerItemFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d(TAG,"onDestroy with id: "+id);
+        Log.d(TAG, "onDestroy with id: " + id);
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        Log.d(TAG,"onAttach with id: "+id);
+        Log.d(TAG, "onAttach with id: " + id);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        Log.d(TAG,"onDetach with id: "+id);
+        Log.d(TAG, "onDetach with id: " + id);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG,"onCreateView with id: "+id);
+        Log.d(TAG, "onCreateView with id: " + id);
         return createViewBind(R.layout.fragment_movie_pager_item, inflater, container, this);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG,"onViewCreated with id: "+id);
+        Log.d(TAG, "onViewCreated with id: " + id);
         super.onViewCreated(view, savedInstanceState);
         rv = (RecyclerView) view.findViewById(R.id.recyclerview);
+        setupRecyclerView(rv, tvShowItems);
+        loadRetrofitData(0);
 
-        TvShowService api = ApiServices.getTvShowService();
-        Call<PagedResponse<TvShowItem>> en = null;
-        if (TVShowsFragment.tabs[id] == MediaListType.TV_SHOW_TOP_RATED) {
-            en = api.topRated("1", "EN");
-        }
-        if (TVShowsFragment.tabs[id] == MediaListType.TV_SHOW_POPULAR) {
-            en = api.popular("1", "EN");
-        }
-        if (TVShowsFragment.tabs[id] == MediaListType.TV_SHOW_ON_THE_AIR) {
-            en = api.onTheAir("1", "EN");
-        }
-        if (TVShowsFragment.tabs[id] == MediaListType.TV_SHOW_AIRING_TODAY) {
-            en = api.airingToday("1", "EN");
-        }
-        if (en != null) {
-            System.out.println("enqueued callback");
-            en.enqueue(new Callback<PagedResponse<TvShowItem>>() {
-                @Override
-                public void onResponse(Call<PagedResponse<TvShowItem>> call, Response<PagedResponse<TvShowItem>> response) {
-                    System.out.println("retrofit response size: " + response.body().getResults().size());
-                    if(response.body().getResults().size()>0) {
-                        System.out.println("retrofit response item 0: " + response.body().getResults().get(0).toString());
-                        List<TvShowItem> results = response.body().getResults();
-                        tvShowItems.addAll(results);
-                        setupRecyclerView(rv, tvShowItems);
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<PagedResponse<TvShowItem>> call, Throwable t) {
-                    System.out.println("retrofit error: " + t.getLocalizedMessage());
-                }
-            });
-        } else {
-            throw new RuntimeException("en is null");
-        }
     }
 
     private void setupRecyclerView(RecyclerView recyclerView, List<TvShowItem> results) {
@@ -150,6 +116,10 @@ public class TVShowPagerItemFragment extends BaseFragment {
         // Send an API request to retrieve appropriate data using the offset value as a parameter.
         //  --> Deserialize API response and then construct new objects to append to the adapter
         //  --> Notify the adapter of the changes
+        loadRetrofitData(page);
+    }
+
+    private void loadRetrofitData(int page) {
         page++;
         System.out.println("loading page " + page);
         TvShowService api = ApiServices.getTvShowService();
@@ -171,7 +141,7 @@ public class TVShowPagerItemFragment extends BaseFragment {
                 @Override
                 public void onResponse(Call<PagedResponse<TvShowItem>> call, Response<PagedResponse<TvShowItem>> response) {
                     System.out.println("retrofit response size: " + response.body().getResults().size());
-                    if(response.body().getResults().size()>0) {
+                    if (response.body().getResults().size() > 0) {
                         System.out.println("retrofit response item 0: " + response.body().getResults().get(0).toString());
                         List<TvShowItem> results = response.body().getResults();
                         tvShowItems.addAll(results);
@@ -188,6 +158,8 @@ public class TVShowPagerItemFragment extends BaseFragment {
             System.out.println("en is null");
         }
     }
+
+
 
 
 }

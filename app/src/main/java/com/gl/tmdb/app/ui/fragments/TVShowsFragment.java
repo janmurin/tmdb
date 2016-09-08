@@ -38,7 +38,7 @@ public class TVShowsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
-        //setRetainInstance(true);
+        setRetainInstance(true);
         getActivity().setTitle("Tv Shows");
     }
 
@@ -75,8 +75,8 @@ public class TVShowsFragment extends BaseFragment {
     }
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
-
+      //  Adapter adapter = new Adapter(getActivity().getSupportFragmentManager());
+        Adapter adapter = new Adapter(getChildFragmentManager());
         for (int i = 0; i < tabs.length; i++) {
             adapter.addFragment(TVShowPagerItemFragment.getInstance(i), tabs[i].title);
         }

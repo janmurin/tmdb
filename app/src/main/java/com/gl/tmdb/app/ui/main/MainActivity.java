@@ -129,22 +129,50 @@ public class MainActivity extends BaseActivity {
     }
 
     private void displayHome() {
-        showContentFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(HomeFragment.TAG);
+        if (fragmentByTag == null) {
+            showContentFragment(HomeFragment.newInstance(), HomeFragment.TAG);
+            System.out.println("fragment home vytvoreny");
+        } else {
+            showContentFragment(fragmentByTag, HomeFragment.TAG);
+            System.out.println("fragment home obnoveny");
+        }
         navigationView.getMenu().getItem(HomeFragment.DRAWER_POS).setChecked(true);
     }
 
     private void displayMovies() {
-        showContentFragment(MoviesFragment.newInstance(), MoviesFragment.TAG);
+        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(MoviesFragment.TAG);
+        if (fragmentByTag == null) {
+            showContentFragment(MoviesFragment.newInstance(), MoviesFragment.TAG);
+            System.out.println("fragment movies vytvoreny");
+        } else {
+            showContentFragment(fragmentByTag, MoviesFragment.TAG);
+            System.out.println("fragment movies obnoveny");
+        }
         navigationView.getMenu().getItem(MoviesFragment.DRAWER_POS).setChecked(true);
     }
 
     private void displayTvShows() {
-        showContentFragment(TVShowsFragment.newInstance(), TVShowsFragment.TAG);
+        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(TVShowsFragment.TAG);
+        if (fragmentByTag == null) {
+            showContentFragment(TVShowsFragment.newInstance(), TVShowsFragment.TAG);
+            System.out.println("fragment tvshows vytvoreny");
+        } else {
+            showContentFragment(fragmentByTag, TVShowsFragment.TAG);
+            System.out.println("fragment tvshows obnoveny");
+        }
         navigationView.getMenu().getItem(TVShowsFragment.DRAWER_POS).setChecked(true);
     }
 
     private void displayPersons() {
-        showContentFragment(PersonsFragment.newInstance(), PersonsFragment.TAG);
+        Fragment fragmentByTag = getSupportFragmentManager().findFragmentByTag(PersonsFragment.TAG);
+        if (fragmentByTag == null) {
+            showContentFragment(PersonsFragment.newInstance(), PersonsFragment.TAG);
+            System.out.println("fragment persons vytvoreny");
+        } else {
+            showContentFragment(fragmentByTag, PersonsFragment.TAG);
+            System.out.println("fragment persons obnoveny");
+        }
         navigationView.getMenu().getItem(PersonsFragment.DRAWER_POS).setChecked(true);
     }
 
@@ -153,6 +181,7 @@ public class MainActivity extends BaseActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.content_frame, fragment, tag)
+                .addToBackStack(tag)
                 .commit();
     }
 

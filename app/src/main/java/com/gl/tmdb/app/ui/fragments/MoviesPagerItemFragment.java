@@ -53,7 +53,7 @@ public class MoviesPagerItemFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d(TAG,"onCreate with id: "+id);
-       // setRetainInstance(true);
+        setRetainInstance(true);
         Bundle args = getArguments();
         if (args != null) {
             id = args.getInt(TAB_ID);
@@ -93,49 +93,8 @@ public class MoviesPagerItemFragment extends BaseFragment {
         Log.d(TAG,"onViewCreated with id: "+id);
         super.onViewCreated(view, savedInstanceState);
         rv = (RecyclerView) view.findViewById(R.id.recyclerview);
-
-        MoviesService api = ApiServices.getMoviesService();
-        Call<PagedResponse<MovieItem>> en = null;
-        if (MoviesFragment.tabs[id] == MediaListType.MOVIES_POPULAR) {
-            en = api.popular("1", "EN");
-        }
-        if (MoviesFragment.tabs[id] == MediaListType.MOVIES_TOP_RATED) {
-            en = api.topRated("1", "EN");
-        }
-        if (MoviesFragment.tabs[id] == MediaListType.MOVIES_UPCOMING) {
-            en = api.upcoming("1", "EN");
-        }
-        if (MoviesFragment.tabs[id] == MediaListType.MOVIES_NOW_PLAYING) {
-            en = api.nowPlaying("1", "EN");
-        }
-        if (en != null) {
-            System.out.println("enqueued callback");
-            en.enqueue(new Callback<PagedResponse<MovieItem>>() {
-                @Override
-                public void onResponse(Call<PagedResponse<MovieItem>> call, Response<PagedResponse<MovieItem>> response) {
-                    if (response.isSuccessful()) {
-                        System.out.println("retrofit response size: " + response.body().getResults().size());
-                        if(response.body().getResults().size()>0) {
-                            System.out.println("retrofit response item 0: " + response.body().getResults().get(0).toString());
-                            List<MovieItem> results = response.body().getResults();
-                            movieItems.addAll(results);
-                            setupRecyclerView(rv, movieItems);
-                        }
-                    } else {
-                        System.out.println("response not successfull");
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<PagedResponse<MovieItem>> call, Throwable t) {
-                    System.out.println("retrofit error: " + t.getLocalizedMessage());
-                }
-
-
-            });
-        }else{
-            throw new RuntimeException("EN IS NULL");
-        }
+        setupRecyclerView(rv, movieItems);
+        loadRetrofitData(0);
     }
 
     private void setupRecyclerView(RecyclerView recyclerView, List<MovieItem> results) {
@@ -157,6 +116,10 @@ public class MoviesPagerItemFragment extends BaseFragment {
         // Send an API request to retrieve appropriate data using the offset value as a parameter.
         //  --> Deserialize API response and then construct new objects to append to the adapter
         //  --> Notify the adapter of the changes
+        loadRetrofitData(page);
+    }
+
+    private void loadRetrofitData(int page) {
         page++;
         System.out.println("loading page " + page);
         MoviesService api = ApiServices.getMoviesService();
@@ -197,8 +160,11 @@ public class MoviesPagerItemFragment extends BaseFragment {
 
 
             });
+
         }
     }
+
+
 
 
 }
